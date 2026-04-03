@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import { useInView } from "react-intersection-observer";
 import { useState } from "react";
+import phoneCardsImg from "@/assets/phone-cards.png";
 
 const AppFeatures = () => {
   const { ref, inView } = useInView({ threshold: 0.2, triggerOnce: true });
