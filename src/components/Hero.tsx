@@ -100,7 +100,7 @@ const Hero = () => {
         >
           <div
             className="w-[340px] h-[210px] cursor-pointer"
-            onClick={() => setFlipped((f) => !f)}
+            onClick={() => { setFlipped((f) => !f); setHasClicked(true); }}
             style={{
               transformStyle: "preserve-3d",
               transition: "transform 0.8s",
