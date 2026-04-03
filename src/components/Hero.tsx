@@ -1,10 +1,39 @@
 import { motion } from "framer-motion";
 import { Shield, Users } from "lucide-react";
+import { useState, useRef, useCallback } from "react";
 
 const Hero = () => {
+  const [flipped, setFlipped] = useState(false);
+  const cardRef = useRef<HTMLDivElement>(null);
+  const [tilt, setTilt] = useState({ x: 0, y: 0 });
+  const [shinePos, setShinePos] = useState({ x: 50, y: 50 });
+
+  const handleMouseMove = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
+    if (!cardRef.current) return;
+    const rect = cardRef.current.getBoundingClientRect();
+    const centerX = rect.left + rect.width / 2;
+    const centerY = rect.top + rect.height / 2;
+    const x = (centerX - e.clientX) / 25;
+    const y = (e.clientY - centerY) / 25;
+    setTilt({ x, y });
+    setShinePos({
+      x: ((e.clientX - rect.left) / rect.width) * 100,
+      y: ((e.clientY - rect.top) / rect.height) * 100,
+    });
+  }, []);
+
+  const handleMouseLeave = useCallback(() => {
+    setTilt({ x: 0, y: 0 });
+    setShinePos({ x: 50, y: 50 });
+  }, []);
+
+  const cardTransform = flipped
+    ? `rotateY(${180 + tilt.x}deg) rotateX(${tilt.y}deg)`
+    : `rotateY(${tilt.x}deg) rotateX(${tilt.y}deg)`;
+
   return (
     <section className="bg-background py-16 md:py-24 px-4 md:px-10">
-      <div className="mx-auto grid max-w-[1400px] grid-cols-1 items-start gap-10 md:grid-cols-2 md:gap-12 lg:gap-20">
+      <div className="mx-auto grid max-w-[1400px] grid-cols-1 items-start gap-10 md:grid-cols-2 md:gap-8 lg:gap-20">
         {/* Left Column */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -56,36 +85,80 @@ const Hero = () => {
           </div>
         </motion.div>
 
-        {/* Right Column - Large Card */}
+        {/* Right Column - 3D Interactive Card */}
         <motion.div
           initial={{ opacity: 0, x: 60 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.8, delay: 0.3 }}
-          className="flex items-center justify-center relative"
-          style={{ perspective: "1000px" }}
+          className="flex items-start justify-center"
+          style={{ perspective: "1200px" }}
+          ref={cardRef}
+          onMouseMove={handleMouseMove}
+          onMouseLeave={handleMouseLeave}
         >
           <div
-            className="animate-rotate-card relative w-[320px] h-[200px] sm:w-[400px] sm:h-[250px] lg:w-[480px] lg:h-[300px] rounded-2xl"
+            className="w-[340px] h-[210px] cursor-pointer"
+            onClick={() => setFlipped((f) => !f)}
             style={{
-              boxShadow: "0 30px 80px rgba(0, 0, 0, 0.25), 0 10px 30px rgba(0, 0, 0, 0.15)",
+              transformStyle: "preserve-3d",
+              transition: "transform 0.8s",
+              transform: cardTransform,
             }}
           >
-            {/* Card content */}
-            <div className="absolute inset-0 flex flex-col justify-between p-6 lg:p-8 text-white" style={{ backfaceVisibility: "hidden" }}>
-              <div className="flex justify-between items-start">
-                <span className="text-xl lg:text-2xl font-bold tracking-wide opacity-90">ainter</span>
-                <div className="flex items-center gap-1">
-                  <div className="w-6 h-6 lg:w-7 lg:h-7 rounded-full bg-red-500 opacity-80" />
-                  <div className="w-6 h-6 lg:w-7 lg:h-7 rounded-full bg-yellow-400 opacity-80 -ml-3" />
-                </div>
+            {/* FRONT */}
+            <div
+              className="absolute inset-0 rounded-2xl overflow-hidden"
+              style={{
+                backfaceVisibility: "hidden",
+                background: "linear-gradient(135deg, #8a8a8a, #5e5e5e)",
+                boxShadow: "0 30px 60px rgba(0,0,0,0.25)",
+              }}
+            >
+              {/* Shine */}
+              <div
+                className="absolute w-[200%] h-[200%]"
+                style={{
+                  background: `radial-gradient(circle at ${shinePos.x}% ${shinePos.y}%, rgba(255,255,255,0.25), transparent 60%)`,
+                  top: "-50%",
+                  left: "-50%",
+                  pointerEvents: "none",
+                }}
+              />
+              {/* Logo */}
+              <span className="absolute top-5 left-5 text-white text-[26px] font-bold">inter</span>
+              {/* Chip */}
+              <div
+                className="absolute top-[70px] left-5 w-[55px] h-[40px] rounded-lg"
+                style={{ background: "linear-gradient(145deg, #666, #444)" }}
+              />
+              {/* Number */}
+              <p className="absolute bottom-[70px] left-5 text-white text-lg tracking-widest">
+                1234 5678 9012 3456
+              </p>
+              {/* Name */}
+              <p className="absolute bottom-10 left-5 text-white text-sm">SEU NOME</p>
+              {/* Expiry */}
+              <p className="absolute bottom-10 right-5 text-white text-sm">12/30</p>
+              {/* Mastercard circles */}
+              <div className="absolute bottom-4 right-5 flex">
+                <div className="w-10 h-10 rounded-full bg-[#eb001b] -mr-2.5 relative z-10" />
+                <div className="w-10 h-10 rounded-full bg-[#f79e1b]" />
               </div>
-              <div className="flex justify-between items-end">
-                <div>
-                  <div className="w-10 h-8 lg:w-12 lg:h-9 rounded bg-yellow-300/60 mb-3 flex items-center justify-center">
-                    <div className="w-6 h-5 lg:w-8 lg:h-6 border border-yellow-200/40 rounded-sm" />
-                  </div>
-                  <p className="text-xs lg:text-sm tracking-[0.25em] opacity-70">•••• •••• •••• 4321</p>
-                </div>
+            </div>
+
+            {/* BACK */}
+            <div
+              className="absolute inset-0 rounded-2xl overflow-hidden"
+              style={{
+                backfaceVisibility: "hidden",
+                background: "linear-gradient(135deg, #6b6b6b, #4a4a4a)",
+                boxShadow: "0 30px 60px rgba(0,0,0,0.25)",
+                transform: "rotateY(180deg)",
+              }}
+            >
+              <div className="bg-black h-10 mt-5" />
+              <div className="bg-white w-4/5 h-10 mx-auto mt-8 flex items-center justify-end pr-3 font-bold text-black rounded">
+                123
               </div>
             </div>
           </div>
