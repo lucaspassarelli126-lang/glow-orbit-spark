@@ -126,6 +126,12 @@ const Hero = () => {
                   pointerEvents: "none",
                 }}
               />
+              {/* Hint icon */}
+              {!hasClicked && (
+                <span className="absolute top-2.5 right-3 text-white/70 text-lg pointer-events-none animate-hint-move">
+                  ↺
+                </span>
+              )}
               {/* Logo */}
               <span className="absolute top-5 left-5 text-white text-[26px] font-bold">inter</span>
               {/* Chip */}

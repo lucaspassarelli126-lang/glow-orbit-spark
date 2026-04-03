@@ -124,6 +124,16 @@
   transform-style: preserve-3d;
 }
 
+@keyframes hintMove {
+  0% { transform: rotate(0deg) translateY(0); opacity: 0.5; }
+  50% { transform: rotate(20deg) translateY(-3px); opacity: 1; }
+  100% { transform: rotate(0deg) translateY(0); opacity: 0.5; }
+}
+
+.animate-hint-move {
+  animation: hintMove 1.5s infinite;
+}
+
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
     animation-duration: 0.01ms !important;
