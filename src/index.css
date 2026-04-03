@@ -134,6 +134,52 @@
   animation: hintMove 1.5s infinite;
 }
 
+/* AppSection animations */
+@keyframes fadeInBg {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes risePhone {
+  from {
+    transform: translateY(80px) scale(0.9);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes riseCard {
+  from {
+    transform: translateY(100px) rotate(-18deg) scale(0.9);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0) rotate(-18deg) scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes floatCard {
+  0% { transform: translateY(0) rotate(-18deg); }
+  50% { transform: translateY(-15px) rotate(-18deg); }
+  100% { transform: translateY(0) rotate(-18deg); }
+}
+
+.animate-fade-in-bg {
+  animation: fadeInBg 1.2s ease forwards;
+}
+
+.animate-rise-phone {
+  animation: risePhone 1s ease forwards 0.3s;
+}
+
+.animate-rise-card {
+  animation: riseCard 1s ease forwards 0.6s, floatCard 4s ease-in-out infinite 2s;
+}
+
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
     animation-duration: 0.01ms !important;
