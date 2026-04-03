@@ -1,25 +1,21 @@
-import Navbar from "@/components/Navbar";
-import Hero from "@/components/Hero";
-import Products from "@/components/Products";
-import AppSection from "@/components/AppSection";
-import DarkSection from "@/components/DarkSection";
-import GlobalAccount from "@/components/GlobalAccount";
-import AppFeatures from "@/components/AppFeatures";
-import FeaturesGrid from "@/components/FeaturesGrid";
-import Footer from "@/components/Footer";
+import { DottedSurface } from "@/components/ui/dotted-surface";
+import { cn } from '@/lib/utils';
 
-const Index = () => (
-  <div className="min-h-screen">
-    <Navbar />
-    <Hero />
-    <Products />
-    <AppSection />
-    <DarkSection />
-    <GlobalAccount />
-    <AppFeatures />
-    <FeaturesGrid />
-    <Footer />
-  </div>
-);
-
-export default Index;
+export default function Index() {
+ return (
+		<DottedSurface className="size-full">
+			<div className="absolute inset-0 flex items-center justify-center">
+				<div
+					aria-hidden="true"
+					className={cn(
+						'pointer-events-none absolute -top-10 left-1/2 size-full -translate-x-1/2 rounded-full',
+						'bg-[radial-gradient(ellipse_at_center,var(--foreground-alpha),transparent_50%)]',
+						'blur-[30px]',
+					)}
+					style={{ "--foreground-alpha": "rgba(var(--foreground), 0.1)" } as React.CSSProperties}
+				/>
+				<h1 className="font-mono text-4xl font-semibold">Dotted Surface</h1>
+			</div>
+		</DottedSurface>
+	);
+}
