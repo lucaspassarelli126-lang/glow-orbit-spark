@@ -17,19 +17,11 @@ const AppFeatures = () => {
           transition={{ duration: 0.8 }}
           className="flex justify-center"
         >
-          <div
-            className="w-[280px] h-[560px] lg:w-[320px] lg:h-[640px] bg-foreground rounded-5xl border-[12px] border-foreground/70 animate-phone-pulse"
-            style={{ transform: "scale(1.1) perspective(1000px) rotateY(10deg)" }}
-          >
-            <div className="absolute inset-3 top-6 bottom-6 bg-dark-card rounded-[32px] flex items-center justify-center">
-              <div className="text-center">
-                <div className="w-14 h-14 rounded-full bg-primary mx-auto mb-3 flex items-center justify-center">
-                  <span className="text-primary-foreground font-bold text-xl">a</span>
-                </div>
-                <p className="text-xs text-dark-text-muted">Baixe agora</p>
-              </div>
-            </div>
-          </div>
+          <img
+            src={phoneCardsImg}
+            alt="App Inter com cartões"
+            className="w-[320px] lg:w-[420px] max-w-full h-auto drop-shadow-2xl"
+          />
         </motion.div>
 
         {/* Content */}
