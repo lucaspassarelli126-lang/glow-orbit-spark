@@ -4,6 +4,7 @@ import { useState, useRef, useCallback } from "react";
 
 const Hero = () => {
   const [flipped, setFlipped] = useState(false);
+  const [hasClicked, setHasClicked] = useState(false);
   const cardRef = useRef<HTMLDivElement>(null);
   const [tilt, setTilt] = useState({ x: 0, y: 0 });
   const [shinePos, setShinePos] = useState({ x: 50, y: 50 });
