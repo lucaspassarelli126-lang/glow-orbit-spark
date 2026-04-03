@@ -56,26 +56,37 @@ const Hero = () => {
           </div>
         </motion.div>
 
-        {/* Right Column - 3D Card */}
+        {/* Right Column - Large Card */}
         <motion.div
-          initial={{ opacity: 0, scale: 0.9 }}
-          animate={{ opacity: 1, scale: 1 }}
+          initial={{ opacity: 0, x: 60 }}
+          animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.8, delay: 0.3 }}
-          className="flex items-center justify-center"
-          style={{ perspective: "1000px" }}
+          className="flex items-center justify-center relative"
         >
-          <div className="relative w-[280px] h-[180px] lg:w-[340px] lg:h-[210px] rounded-2xl animate-rotate-card shadow-[var(--shadow-3d)]">
-            {/* Card face content */}
-            <div className="absolute inset-0 flex flex-col justify-between p-5 text-primary-foreground" style={{ backfaceVisibility: "hidden" }}>
+          <div
+            className="relative w-[320px] h-[200px] sm:w-[400px] sm:h-[250px] lg:w-[480px] lg:h-[300px] rounded-2xl"
+            style={{
+              background: "linear-gradient(145deg, #b0b0b0 0%, #808080 40%, #a0a0a0 70%, #909090 100%)",
+              transform: "rotate(-12deg)",
+              boxShadow: "0 30px 80px rgba(0, 0, 0, 0.25), 0 10px 30px rgba(0, 0, 0, 0.15)",
+            }}
+          >
+            {/* Card content */}
+            <div className="absolute inset-0 flex flex-col justify-between p-6 lg:p-8 text-white">
               <div className="flex justify-between items-start">
-                <span className="text-lg font-bold opacity-90">ainter</span>
-                <div className="w-10 h-7 rounded bg-primary-foreground/20 flex items-center justify-center text-xs font-bold">
-                  CHIP
+                <span className="text-xl lg:text-2xl font-bold tracking-wide opacity-90">ainter</span>
+                <div className="flex items-center gap-1">
+                  <div className="w-6 h-6 lg:w-7 lg:h-7 rounded-full bg-red-500 opacity-80" />
+                  <div className="w-6 h-6 lg:w-7 lg:h-7 rounded-full bg-yellow-400 opacity-80 -ml-3" />
                 </div>
               </div>
-              <div>
-                <p className="text-sm tracking-[0.2em] opacity-80 mb-1">•••• •••• •••• 4321</p>
-                <p className="text-xs opacity-60 uppercase tracking-wider">Nome do Titular</p>
+              <div className="flex justify-between items-end">
+                <div>
+                  <div className="w-10 h-8 lg:w-12 lg:h-9 rounded bg-yellow-300/60 mb-3 flex items-center justify-center">
+                    <div className="w-6 h-5 lg:w-8 lg:h-6 border border-yellow-200/40 rounded-sm" />
+                  </div>
+                  <p className="text-xs lg:text-sm tracking-[0.25em] opacity-70">•••• •••• •••• 4321</p>
+                </div>
               </div>
             </div>
           </div>
