@@ -72,6 +72,7 @@ const Hero = () => {
               className="w-full h-auto object-contain"
             />
           </div>
+        </motion.div>
       </div>
     </section>
   );
