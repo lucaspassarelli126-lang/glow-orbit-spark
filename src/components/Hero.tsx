@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { Shield, Users } from "lucide-react";
-import { useState, useRef, useCallback } from "react";
+import { useState, useRef, useCallback, useEffect } from "react";
 
 const Hero = () => {
   const [flipped, setFlipped] = useState(false);
