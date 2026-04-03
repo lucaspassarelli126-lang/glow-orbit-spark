@@ -163,6 +163,10 @@ const Hero = () => {
               </div>
             </div>
           </div>
+          {/* Hint */}
+          <p className="mt-6 text-center text-xs text-muted-foreground animate-pulse flex items-center justify-center gap-1.5">
+            <span>👆</span> Clique no cartão para virar
+          </p>
         </motion.div>
       </div>
     </section>
