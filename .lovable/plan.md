@@ -1,11 +1,12 @@
 
 
+## Problem
+
+The hint text "Clique no cartão para virar" appears to the **right** of the card instead of **below** it. This is because the parent `motion.div` uses `flex` without `flex-col`, so items are laid out horizontally.
+
 ## Plan
 
-**File: `src/components/Hero.tsx`**
+**File: `src/components/Hero.tsx`**, line 95
 
-1. Add a `hasClicked` state (default `false`) that becomes `true` on the first card click.
-2. Update the `onClick` handler to also set `hasClicked` to `true`.
-3. Replace the hint text: remove the 👆 emoji, keep the text "Clique no cartão para virar", and conditionally render it only when `!hasClicked`. Add a fade-out transition.
-4. Move the hint **below** the card container (it's already below, just needs the emoji removed and conditional visibility).
+Change the class from `flex items-start justify-center` to `flex flex-col items-center justify-start` so the hint stacks below the card vertically.
 
