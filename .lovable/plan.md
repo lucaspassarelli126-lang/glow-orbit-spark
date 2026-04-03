@@ -1,12 +1,18 @@
 
 
-## Problem
+## Plan: Add animated hint icon and initial flip teaser to the card
 
-The hint text "Clique no cartão para virar" appears to the **right** of the card instead of **below** it. This is because the parent `motion.div` uses `flex` without `flex-col`, so items are laid out horizontally.
+**File: `src/components/Hero.tsx`**
 
-## Plan
+1. Add a `↺` hint element inside the card's front face — positioned `absolute top-2.5 right-3`, white with 70% opacity, `pointer-events-none`, with a CSS animation class.
+2. Hide the hint after `hasClicked` becomes true (same logic as the text hint below).
+3. Add a `useEffect` that runs on mount: after 1s delay, set `tilt.x = 25`, then after 800ms reset to 0 — giving a brief "peek" flip animation on page load.
 
-**File: `src/components/Hero.tsx`**, line 95
+**File: `src/index.css`**
 
-Change the class from `flex items-start justify-center` to `flex flex-col items-center justify-start` so the hint stacks below the card vertically.
+4. Add the `hintMove` keyframe animation:
+   - 0%: `rotate(0) translateY(0) opacity 0.5`
+   - 50%: `rotate(20deg) translateY(-3px) opacity 1`
+   - 100%: back to start
+5. Add `.animate-hint-move` utility class using that keyframe (1.5s infinite).
 
