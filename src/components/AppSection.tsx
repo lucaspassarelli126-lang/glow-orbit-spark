@@ -1,4 +1,4 @@
-import { useRef, useCallback } from "react";
+import { useRef, useState, useCallback } from "react";
 import { motion } from "framer-motion";
 import { useInView } from "react-intersection-observer";
 import { Smartphone, CreditCard, PiggyBank, Zap } from "lucide-react";
@@ -12,16 +12,10 @@ const features = [
 
 const AppSection = () => {
   const { ref, inView } = useInView({ threshold: 0.2, triggerOnce: true });
-  const glareRef = useRef<HTMLDivElement>(null);
-  const cardRef = useRef<HTMLDivElement>(null);
+  const [flipped, setFlipped] = useState(false);
 
-  const handleMouseMove = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
-    if (!glareRef.current || !cardRef.current) return;
-    const rect = cardRef.current.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
-    glareRef.current.style.left = `${x - rect.width}px`;
-    glareRef.current.style.top = `${y - rect.height}px`;
+  const handleCardClick = useCallback(() => {
+    setFlipped((prev) => !prev);
   }, []);
 
   return (
@@ -32,70 +26,172 @@ const AppSection = () => {
           initial={{ opacity: 0, x: -40 }}
           animate={inView ? { opacity: 1, x: 0 } : {}}
           transition={{ duration: 0.8 }}
-          className="relative flex justify-center"
-          style={{ perspective: "1600px", height: "480px" }}
+          className="relative flex justify-center items-center"
+          style={{ perspective: "1000px", height: "520px" }}
         >
-          {/* Blurred background shape */}
-          <div
-            className="absolute w-full h-full rounded-[100px] opacity-0 animate-fade-in-bg"
-            style={{
-              background: "linear-gradient(135deg, #7a3b0c, #3a1a05)",
-              filter: "blur(20px)",
-              transform: "scale(1.1) rotate(-6deg)",
-            }}
-          />
-
           {/* Phone */}
           <div
-            className="absolute w-[240px] h-[480px] left-1/2 -ml-[200px] top-[-20px] rounded-[40px] opacity-0 animate-rise-phone"
+            className="relative flex-shrink-0 overflow-hidden"
             style={{
-              background: "linear-gradient(145deg, #111, #000)",
-              boxShadow: "0 40px 80px rgba(0,0,0,0.4), inset 0 0 10px rgba(255,255,255,0.08)",
+              width: "260px",
+              height: "530px",
+              background: "white",
+              borderRadius: "50px",
+              border: "12px solid #1a1a1a",
+              transform: "rotate(-12deg) translateX(-60px)",
+              boxShadow: "0 0 50px rgba(0,0,0,0.15)",
+              zIndex: 1,
             }}
           >
-            <div className="absolute inset-[10px] rounded-[30px] bg-gradient-to-b from-white to-muted p-5">
-              <p className="text-foreground font-semibold text-sm mb-1">Cartões</p>
-              <p className="text-foreground text-xl font-bold">R$ 50,00</p>
+            {/* Notch */}
+            <div
+              className="absolute top-[15px] left-1/2 -translate-x-1/2 w-[60px] h-[5px] rounded-[10px]"
+              style={{ background: "#333", zIndex: 10 }}
+            />
+
+            {/* Phone Screen */}
+            <div className="flex flex-col gap-3 p-5 pt-9 h-full">
+              {/* Header */}
+              <div className="flex items-center gap-3 mb-2">
+                <span className="text-[18px] font-bold text-foreground">←</span>
+                <h3 className="text-base font-semibold text-foreground">Cartões</h3>
+              </div>
+
+              {/* Invoice Card */}
+              <div className="bg-background rounded-[14px] p-4 shadow-sm">
+                <p className="text-[11px] text-muted-foreground flex items-center gap-2">
+                  Fatura de Agosto
+                  <span className="bg-[#00AEEF] text-primary-foreground px-2 py-0.5 rounded-md text-[9px] font-bold">
+                    Aberta
+                  </span>
+                </p>
+                <p className="text-2xl font-bold text-foreground mt-1">R$ 50,00</p>
+                <p className="text-[11px] text-muted-foreground mt-1">Melhor dia para compra 02/09</p>
+                <button
+                  className="mt-3 bg-secondary text-secondary-foreground px-4 py-2 rounded-full text-[11px] font-bold"
+                >
+                  Ativar débito automático
+                </button>
+              </div>
+
+              {/* Limit */}
+              <div className="bg-muted rounded-[14px] p-4">
+                <p className="text-[11px] text-muted-foreground">Limite cartão</p>
+                <div className="h-2 bg-border rounded-full mt-2 mb-2 relative overflow-hidden">
+                  <div className="absolute left-0 top-0 h-full w-[40%] bg-primary rounded-full" />
+                </div>
+                <p className="text-sm font-bold text-foreground">R$ 400,00</p>
+                <p className="text-[10px] text-muted-foreground">Utilizado</p>
+              </div>
+
+              {/* Small card info */}
+              <div className="bg-primary text-primary-foreground rounded-[14px] p-4">
+                <p className="text-[11px] font-semibold">Cibele C Carag...</p>
+                <p className="text-[10px] opacity-80">•••• 1827</p>
+              </div>
+
+              {/* Grid options */}
+              <div className="grid grid-cols-3 gap-2 mt-1">
+                <div className="bg-muted rounded-xl p-2 flex flex-col items-center text-center gap-1">
+                  <span className="text-sm">📱</span>
+                  <span className="text-[9px] text-muted-foreground font-medium">Cartão Digital</span>
+                </div>
+                <div className="bg-muted rounded-xl p-2 flex flex-col items-center text-center gap-1">
+                  <span className="text-sm">💰</span>
+                  <span className="text-[9px] text-muted-foreground font-medium">Poupança Mais Limite</span>
+                </div>
+                <div className="bg-muted rounded-xl p-2 flex flex-col items-center text-center gap-1">
+                  <span className="text-sm">⚙️</span>
+                  <span className="text-[9px] text-muted-foreground font-medium">Opções de limite</span>
+                </div>
+              </div>
             </div>
           </div>
 
-          {/* Floating Card */}
+          {/* 3D Flip Card */}
           <div
-            ref={cardRef}
-            onMouseMove={handleMouseMove}
-            className="absolute w-[300px] h-[180px] top-[170px] left-1/2 ml-[-60px] rounded-[20px] opacity-0 animate-rise-card overflow-hidden"
+            className="absolute cursor-pointer"
             style={{
-              background: "linear-gradient(135deg, hsl(var(--orange-primary)), #ff3d00)",
-              boxShadow: "0 30px 60px rgba(0,0,0,0.35), inset 0 0 30px rgba(255,255,255,0.2)",
-              transformStyle: "preserve-3d",
+              width: "290px",
+              height: "180px",
+              right: "20px",
+              top: "200px",
+              transform: "rotate(12deg)",
+              zIndex: 3,
+              perspective: "1000px",
             }}
+            onClick={handleCardClick}
           >
-            {/* Glare */}
             <div
-              ref={glareRef}
-              className="absolute pointer-events-none"
               style={{
-                width: "200%",
-                height: "200%",
-                background: "radial-gradient(circle, rgba(255,255,255,0.35), transparent 60%)",
-                top: "-50%",
-                left: "-50%",
-                transition: "all 0.1s",
+                position: "relative",
+                width: "100%",
+                height: "100%",
+                transition: "transform 0.8s cubic-bezier(0.4, 0, 0.2, 1)",
+                transformStyle: "preserve-3d",
+                transform: flipped ? "rotateY(180deg)" : "rotateY(0deg)",
               }}
-            />
-            {/* Logo */}
-            <span className="absolute top-5 right-5 text-primary-foreground font-semibold text-[22px]">
-              ainter
-            </span>
-            {/* Chip */}
-            <div
-              className="absolute top-[70px] left-[25px] w-[50px] h-[35px] rounded-lg"
-              style={{ background: "linear-gradient(145deg, #ddd, #999)" }}
-            />
-            {/* Mastercard circles */}
-            <div className="absolute bottom-4 right-5 flex">
-              <div className="w-10 h-10 rounded-full bg-[#eb001b] -mr-3" />
-              <div className="w-10 h-10 rounded-full bg-[#f79e1b]" />
+            >
+              {/* Front */}
+              <div
+                className="absolute w-full h-full rounded-[20px] p-6 flex flex-col justify-between"
+                style={{
+                  backfaceVisibility: "hidden",
+                  background: "linear-gradient(135deg, #FF8A00 0%, #E65C00 100%)",
+                  boxShadow: "50px 50px 80px rgba(0,0,0,0.3)",
+                }}
+              >
+                {/* Logo */}
+                <div className="self-end flex items-center gap-1 -mt-1">
+                  <span className="text-primary-foreground font-black text-3xl tracking-tighter" style={{ fontFamily: "'Arial Black', sans-serif" }}>
+                    inter
+                  </span>
+                </div>
+                {/* Chip */}
+                <div
+                  className="w-[45px] h-[35px] rounded-lg relative"
+                  style={{
+                    background: "linear-gradient(135deg, #d1d1d1 0%, #a1a1a1 100%)",
+                    border: "1px solid rgba(0,0,0,0.1)",
+                  }}
+                >
+                  <div className="absolute top-1/2 left-0 right-0 h-px bg-black/20" />
+                  <div className="absolute left-1/2 top-0 bottom-0 w-px bg-black/20" />
+                </div>
+                {/* Mastercard */}
+                <div className="self-end flex mb-1">
+                  <div className="w-[36px] h-[36px] rounded-full bg-[#EB001B] -mr-3" />
+                  <div className="w-[36px] h-[36px] rounded-full bg-[#F79E1B] opacity-85" />
+                </div>
+              </div>
+
+              {/* Back */}
+              <div
+                className="absolute w-full h-full rounded-[20px] flex flex-col justify-start"
+                style={{
+                  backfaceVisibility: "hidden",
+                  background: "linear-gradient(135deg, #E65C00 0%, #FF8A00 100%)",
+                  boxShadow: "50px 50px 80px rgba(0,0,0,0.3)",
+                  transform: "rotateY(180deg)",
+                  padding: 0,
+                }}
+              >
+                {/* Magnetic stripe */}
+                <div className="w-full h-[45px] bg-[#333] mt-[30px]" />
+                {/* Signature */}
+                <div
+                  className="w-4/5 h-[35px] bg-[#eee] mx-auto mt-5 flex items-center justify-end pr-4"
+                  style={{ fontFamily: "'Courier New', monospace" }}
+                >
+                  <span className="text-foreground font-bold text-sm">123</span>
+                </div>
+                {/* Info */}
+                <div className="px-6 py-4 text-[10px] text-primary-foreground/90">
+                  <p>Este cartão é pessoal e intransferível.</p>
+                  <p>Ouvidoria: 0800 940 7772</p>
+                  <p className="font-bold mt-1">BANCO INTER S.A.</p>
+                </div>
+              </div>
             </div>
           </div>
         </motion.div>
