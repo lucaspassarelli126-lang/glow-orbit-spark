@@ -28,14 +28,15 @@ const Hero = () => {
     setShinePos({ x: 50, y: 50 });
   }, []);
 
-  // Initial "peek" animation on mount
+  // Repeating "peek" animation until first click
   useEffect(() => {
-    const timer = setTimeout(() => {
+    if (hasClicked) return;
+    const interval = setInterval(() => {
       setTilt({ x: 25, y: 0 });
       setTimeout(() => setTilt({ x: 0, y: 0 }), 800);
-    }, 1000);
-    return () => clearTimeout(timer);
-  }, []);
+    }, 3000);
+    return () => clearInterval(interval);
+  }, [hasClicked]);
 
   const baseRotate = "rotateZ(-12deg)";
   const cardTransform = flipped
