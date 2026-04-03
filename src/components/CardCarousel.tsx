@@ -46,11 +46,11 @@ const TIERS = [
 
 const AUTO_PLAY_INTERVAL = 3500;
 const ITEM_HEIGHT = 65;
-
 const wrap = (min: number, max: number, v: number) => {
   const rangeSize = max - min;
   return ((((v - min) % rangeSize) + rangeSize) % rangeSize) + min;
 };
+
 
 const CardCarousel = () => {
   const [step, setStep] = useState(0);
@@ -73,17 +73,8 @@ const CardCarousel = () => {
     return () => clearInterval(interval);
   }, [nextStep, isPaused]);
 
-  const getCardStatus = (index: number) => {
-    const diff = index - currentIndex;
-    const len = TIERS.length;
-    let normalizedDiff = diff;
-    if (diff > len / 2) normalizedDiff -= len;
-    if (diff < -len / 2) normalizedDiff += len;
-    if (normalizedDiff === 0) return "active";
-    if (normalizedDiff === -1) return "prev";
-    if (normalizedDiff === 1) return "next";
-    return "hidden";
-  };
+
+
 
   return (
     <div className="w-full max-w-[1200px] mx-auto">
@@ -138,69 +129,44 @@ const CardCarousel = () => {
           </motion.div>
         </div>
 
-        {/* RIGHT — Card stack */}
-        <div className="flex-1 relative flex items-center justify-center bg-muted rounded-2xl lg:rounded-l-none overflow-hidden min-h-[350px]">
-          <div className="relative w-[320px] h-[350px]" style={{ perspective: "1200px" }}>
-            {TIERS.map((tier, index) => {
-              const status = getCardStatus(index);
-              const isActive = status === "active";
-              const isPrev = status === "prev";
-              const isNext = status === "next";
+        {/* RIGHT — Active card */}
+        <div className="flex-1 relative flex items-center justify-center bg-muted rounded-2xl lg:rounded-l-none overflow-hidden min-h-[420px]">
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={TIERS[currentIndex].id}
+              className="flex flex-col items-center justify-center"
+              initial={{ opacity: 0, x: 40 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: -40 }}
+              transition={{ duration: 0.4, ease: "easeInOut" }}
+            >
+              {/* Card visual */}
+              <div
+                className="w-[360px] h-[220px] rounded-2xl p-7 flex flex-col justify-between relative overflow-hidden shadow-2xl"
+                style={{ background: TIERS[currentIndex].gradient }}
+              >
+                <div className="absolute inset-0 opacity-20 pointer-events-none" style={{ background: "radial-gradient(circle at 30% 20%, rgba(255,255,255,0.6) 0%, transparent 60%)" }} />
+                <div className="flex justify-end">
+                  <span className="text-3xl font-black tracking-tight" style={{ color: TIERS[currentIndex].textColor || "#fff" }}>inter</span>
+                </div>
+                <div className="w-12 h-9 rounded-md" style={{ background: "linear-gradient(135deg, #d1d1d1, #a1a1a1)", border: "1px solid rgba(0,0,0,0.1)" }} />
+                <div className="flex justify-end items-end gap-0">
+                  <div className="w-9 h-9 rounded-full bg-[#EB001B] -mr-3 relative z-10" />
+                  <div className="w-9 h-9 rounded-full bg-[#F79E1B] opacity-85" />
+                </div>
+              </div>
 
-              return (
-                <motion.div
-                  key={tier.id}
-                  className="absolute inset-0 flex flex-col items-center justify-center"
-                  initial={false}
-                  animate={{
-                    rotateY: isActive ? 0 : isPrev ? -35 : isNext ? 35 : 60,
-                    scale: isActive ? 1 : 0.85,
-                    x: isActive ? 0 : isPrev ? -80 : isNext ? 80 : 0,
-                    z: isActive ? 0 : -150,
-                    opacity: isActive ? 1 : isPrev || isNext ? 0.5 : 0,
-                  }}
-                  transition={{ type: "spring", stiffness: 200, damping: 30 }}
-                  style={{ transformStyle: "preserve-3d" }}
-                >
-                  {/* Card visual */}
-                  <div
-                    className="w-[300px] h-[185px] rounded-2xl p-6 flex flex-col justify-between relative overflow-hidden shadow-2xl"
-                    style={{ background: tier.gradient }}
-                  >
-                    <div className="absolute inset-0 opacity-20 pointer-events-none" style={{ background: "radial-gradient(circle at 30% 20%, rgba(255,255,255,0.6) 0%, transparent 60%)" }} />
-                    <div className="flex justify-end">
-                      <span className="text-2xl font-black tracking-tight" style={{ color: tier.textColor || "#fff" }}>inter</span>
-                    </div>
-                    <div className="w-11 h-8 rounded-md" style={{ background: "linear-gradient(135deg, #d1d1d1, #a1a1a1)", border: "1px solid rgba(0,0,0,0.1)" }} />
-                    <div className="flex justify-end items-end gap-0">
-                      <div className="w-8 h-8 rounded-full bg-[#EB001B] -mr-3 relative z-10" />
-                      <div className="w-8 h-8 rounded-full bg-[#F79E1B] opacity-85" />
-                    </div>
-                  </div>
-
-                  {/* Info below card */}
-                  <AnimatePresence>
-                    {isActive && (
-                      <motion.div
-                        initial={{ opacity: 0, y: 10 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0, y: -10 }}
-                        transition={{ delay: 0.15 }}
-                        className="mt-5 text-center"
-                      >
-                        <p className="text-sm font-bold text-foreground">
-                          {tier.name} • {tier.loop}
-                        </p>
-                        <p className="text-xs text-muted-foreground mt-1 max-w-[260px]">
-                          {tier.description}
-                        </p>
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
-                </motion.div>
-              );
-            })}
-          </div>
+              {/* Info below card */}
+              <div className="mt-6 text-center">
+                <p className="text-lg font-bold text-foreground">
+                  {TIERS[currentIndex].name} • {TIERS[currentIndex].loop}
+                </p>
+                <p className="text-sm text-muted-foreground mt-2 max-w-[340px]">
+                  {TIERS[currentIndex].description}
+                </p>
+              </div>
+            </motion.div>
+          </AnimatePresence>
         </div>
       </div>
     </div>
