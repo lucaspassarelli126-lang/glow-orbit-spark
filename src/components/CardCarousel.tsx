@@ -73,17 +73,8 @@ const CardCarousel = () => {
     return () => clearInterval(interval);
   }, [nextStep, isPaused]);
 
-  const getCardStatus = (index: number) => {
-    const diff = index - currentIndex;
-    const len = TIERS.length;
-    let normalizedDiff = diff;
-    if (diff > len / 2) normalizedDiff -= len;
-    if (diff < -len / 2) normalizedDiff += len;
-    if (normalizedDiff === 0) return "active";
-    if (normalizedDiff === -1) return "prev";
-    if (normalizedDiff === 1) return "next";
-    return "hidden";
-  };
+
+
 
   return (
     <div className="w-full max-w-[1200px] mx-auto">
