@@ -1,45 +1,61 @@
 import { useState, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { CreditCard, Award, Crown, Gem } from "lucide-react";
+import { CreditCard, Briefcase, Diamond, Award, Crown, Star } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const TIERS = [
   {
-    id: "gold",
-    label: "Gold",
+    id: "c6",
+    label: "C6",
     icon: CreditCard,
-    gradient: "linear-gradient(135deg, #FF8A00 0%, #E65C00 100%)",
-    description: "Cartão ideal para começar. Sem anuidade e com cashback.",
-    name: "Inter Gold",
-    loop: "1 ponto a cada R$ 10,00",
+    gradient: "linear-gradient(135deg, #F04770 0%, #F68B30 100%)",
+    description: "Pontos que não expiram e anuidade zero.",
+    name: "C6",
   },
   {
-    id: "platinum",
-    label: "Platinum",
+    id: "c6-business",
+    label: "C6 Business",
+    icon: Briefcase,
+    gradient: "linear-gradient(135deg, #E2E2E2 0%, #CFCFCF 100%)",
+    description: "Cartão sem anuidade para simplificar a gestão do seu negócio.",
+    name: "C6 Business",
+    textColor: "#555",
+  },
+  {
+    id: "c6-graphene",
+    label: "C6 Graphene",
+    icon: Diamond,
+    gradient: "linear-gradient(135deg, #6b6b6b 0%, #3d3d3d 100%)",
+    description: "4,5 pontos/US$ 1 no crédito. Salas VIP ilimitadas no mundo todo. Exclusivo para quem investe a partir de R$ 5 milhões.",
+    name: "C6 Graphene",
+    textColor: "#1a1a1a",
+  },
+  {
+    id: "c6-carbon",
+    label: "C6 Carbon",
     icon: Award,
-    gradient: "linear-gradient(135deg, #D1D5DB 0%, #9CA3AF 100%)",
-    description: "Benefícios exclusivos com milhas em dobro e câmbio reduzido.",
-    name: "Inter Platinum",
-    loop: "1 ponto a cada R$ 5,00",
+    // Estilo que simula a textura em malha do Carbon, via background duplo:
+    gradient: "repeating-linear-gradient(45deg, #222 0%, #222 2%, #111 2%, #111 4%), linear-gradient(135deg, #1A1A1A 0%, #000000 100%)",
+    description: "Até 3,5 pontos/US$ 1, salas VIP em aeroportos do mundo todo e muito mais.",
+    name: "C6 Carbon",
+    textColor: "#D1D5DB",
   },
   {
-    id: "prime",
-    label: "Prime",
+    id: "c6-black",
+    label: "C6 Black",
     icon: Crown,
-    gradient: "linear-gradient(135deg, #1a1a1a 0%, #333333 100%)",
-    description: "Salas VIP ilimitadas, Duo Gourmet e assessoria exclusiva.",
-    name: "Inter Black",
-    loop: "1 ponto a cada R$ 2,50",
-    textColor: "#fff",
+    gradient: "linear-gradient(135deg, #111111 0%, #050505 100%)",
+    description: "Até 2,5 pontos/US$ 1, cashback de até 1,2% e mais.",
+    name: "C6 Black",
+    textColor: "#A3A3A3",
   },
   {
-    id: "win",
-    label: "Win",
-    icon: Gem,
-    gradient: "linear-gradient(135deg, #0F172A 0%, #1E3A5F 100%)",
-    description: "O máximo em exclusividade para clientes de alta renda.",
-    name: "Inter Win",
-    loop: "1 ponto a cada R$ 2,00",
+    id: "c6-platinum",
+    label: "C6 Platinum",
+    icon: Star,
+    gradient: "linear-gradient(135deg, #B5BDBB 0%, #87918E 100%)",
+    description: "Pontos que não expiram, anuidade zero e todos os benefícios Mastercard Platinum.",
+    name: "C6 Platinum",
     textColor: "#fff",
   },
 ];
@@ -147,21 +163,22 @@ const CardCarousel = () => {
               >
                 <div className="absolute inset-0 opacity-20 pointer-events-none" style={{ background: "radial-gradient(circle at 30% 20%, rgba(255,255,255,0.6) 0%, transparent 60%)" }} />
                 <div className="flex justify-end">
-                  <span className="text-3xl font-black tracking-tight" style={{ color: TIERS[currentIndex].textColor || "#fff" }}>inter</span>
+                  <span className="text-3xl font-medium tracking-wide" style={{ color: TIERS[currentIndex].textColor || "#fff" }}>C6<span className="font-light">BANK</span></span>
                 </div>
-                <div className="w-12 h-9 rounded-md" style={{ background: "linear-gradient(135deg, #d1d1d1, #a1a1a1)", border: "1px solid rgba(0,0,0,0.1)" }} />
-                <div className="flex justify-end items-end gap-0">
-                  <div className="w-9 h-9 rounded-full bg-[#EB001B] -mr-3 relative z-10" />
-                  <div className="w-9 h-9 rounded-full bg-[#F79E1B] opacity-85" />
+                <div className="w-12 h-9 rounded-md mt-6" style={{ background: "linear-gradient(135deg, #d1d1d1, #a1a1a1)", border: "1px solid rgba(0,0,0,0.1)" }} />
+                <div className="flex justify-start items-end gap-0 absolute bottom-7 left-7">
+                  {/* C6 Logo Style - Mastercard at bottom left */}
+                  <div className="w-9 h-9 rounded-full bg-[#EB001B] relative z-10" />
+                  <div className="w-9 h-9 rounded-full bg-[#F79E1B] opacity-85 -ml-3" />
                 </div>
               </div>
 
               {/* Info below card */}
-              <div className="mt-6 text-center">
-                <p className="text-lg font-bold text-foreground">
-                  {TIERS[currentIndex].name} • {TIERS[currentIndex].loop}
+              <div className="mt-6 text-center px-4">
+                <p className="text-2xl font-bold text-foreground">
+                  {TIERS[currentIndex].name}
                 </p>
-                <p className="text-sm text-muted-foreground mt-2 max-w-[340px]">
+                <p className="text-base text-muted-foreground mt-3 max-w-[400px]">
                   {TIERS[currentIndex].description}
                 </p>
               </div>
