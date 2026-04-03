@@ -1,18 +1,17 @@
 import { motion } from "framer-motion";
 import { Shield, Users } from "lucide-react";
-// Assumindo que a nova imagem das mãos com o cartão C6 será salva como "c6-card-hands.png" na pasta src/assets
-import c6CardHands from "@/assets/c6-card-hands.png";
+import c6CardAngled from "@/assets/c6-card-angled.png";
 
 const Hero = () => {
-
   return (
-    <section className="bg-background py-16 md:py-24 px-4 md:px-10">
-      <div className="mx-auto grid max-w-[1400px] grid-cols-1 items-start gap-10 md:grid-cols-2 md:gap-8 lg:gap-20">
+    <section className="bg-background relative overflow-hidden py-16 px-4 md:py-24 md:px-10 min-h-[85vh] flex items-center">
+      <div className="mx-auto grid w-full max-w-[1400px] grid-cols-1 items-center gap-10 md:grid-cols-2 md:gap-8 lg:gap-20 relative z-10">
         {/* Left Column */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, ease: "easeOut" }}
+          className="pb-10 md:pb-0"
         >
           <h1 className="text-4xl md:text-5xl lg:text-[64px] font-black leading-[1.2] tracking-tight mb-6">
             Fácil,{" "}
@@ -58,27 +57,24 @@ const Hero = () => {
             </div>
           </div>
         </motion.div>
-
-        {/* Right Column - Image with Hands */}
-        <motion.div
-          initial={{ opacity: 0, x: 60 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.8, delay: 0.3 }}
-          className="flex flex-col items-center lg:items-end justify-center relative w-full h-[400px] sm:h-[500px] lg:h-auto mt-12 md:mt-0"
-        >
-          {/* Brilho de fundo para destacar o elemento */}
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] sm:w-[450px] h-[300px] sm:h-[450px] bg-primary/20 blur-[100px] rounded-full z-0 pointer-events-none" />
-          
-          <motion.img
-            src={c6CardHands}
-            alt="Cartão C6 Bank Segurado por Mãos"
-            className="relative z-10 w-full max-w-[550px] object-contain drop-shadow-2xl origin-bottom lg:origin-right"
-            initial={{ y: 20 }}
-            animate={{ y: [0, -15, 0] }}
-            transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-          />
-        </motion.div>
       </div>
+
+      {/* Right Column - Bleeding Corner Image */}
+      <motion.div
+        initial={{ opacity: 0, x: 60 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ duration: 0.8, delay: 0.3 }}
+        className="absolute bottom-0 right-0 w-[80%] md:w-[50%] lg:w-[55%] max-w-[800px] flex justify-end items-end z-0 pointer-events-none"
+      >
+        {/* Ajuste suave de brilho (opcional) */}
+        <div className="absolute bottom-10 right-20 w-[400px] h-[400px] bg-primary/10 blur-[120px] rounded-full z-0" />
+        
+        <img
+          src={c6CardAngled}
+          alt="Cartão C6 Bank no Bloco"
+          className="relative z-10 w-full h-auto object-cover object-right-bottom transform translate-x-[5%] translate-y-[5%]"
+        />
+      </motion.div>
     </section>
   );
 };
