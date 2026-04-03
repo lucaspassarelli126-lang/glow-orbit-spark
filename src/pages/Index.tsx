@@ -15,6 +15,7 @@ const Index = () => (
     <Products />
     <AppSection />
     <DarkSection />
+    <GlobalAccount />
     <AppFeatures />
     <FeaturesGrid />
     <Footer />
