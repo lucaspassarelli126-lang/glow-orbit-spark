@@ -1,6 +1,5 @@
 import { motion } from "framer-motion";
 import { Shield, Users } from "lucide-react";
-import cardInter from "@/assets/card-inter.png";
 
 const Hero = () => {
   return (
@@ -65,12 +64,30 @@ const Hero = () => {
           className="flex items-center justify-center relative"
           style={{ perspective: "1000px" }}
         >
-          <div className="animate-rotate-card relative w-full max-w-[480px]">
-            <img
-              src={cardInter}
-              alt="Cartão Inter"
-              className="w-full h-auto object-contain"
-            />
+          <div
+            className="animate-rotate-card relative w-[320px] h-[200px] sm:w-[400px] sm:h-[250px] lg:w-[480px] lg:h-[300px] rounded-2xl"
+            style={{
+              boxShadow: "0 30px 80px rgba(0, 0, 0, 0.25), 0 10px 30px rgba(0, 0, 0, 0.15)",
+            }}
+          >
+            {/* Card content */}
+            <div className="absolute inset-0 flex flex-col justify-between p-6 lg:p-8 text-white" style={{ backfaceVisibility: "hidden" }}>
+              <div className="flex justify-between items-start">
+                <span className="text-xl lg:text-2xl font-bold tracking-wide opacity-90">ainter</span>
+                <div className="flex items-center gap-1">
+                  <div className="w-6 h-6 lg:w-7 lg:h-7 rounded-full bg-red-500 opacity-80" />
+                  <div className="w-6 h-6 lg:w-7 lg:h-7 rounded-full bg-yellow-400 opacity-80 -ml-3" />
+                </div>
+              </div>
+              <div className="flex justify-between items-end">
+                <div>
+                  <div className="w-10 h-8 lg:w-12 lg:h-9 rounded bg-yellow-300/60 mb-3 flex items-center justify-center">
+                    <div className="w-6 h-5 lg:w-8 lg:h-6 border border-yellow-200/40 rounded-sm" />
+                  </div>
+                  <p className="text-xs lg:text-sm tracking-[0.25em] opacity-70">•••• •••• •••• 4321</p>
+                </div>
+              </div>
+            </div>
           </div>
         </motion.div>
       </div>
