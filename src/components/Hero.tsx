@@ -27,9 +27,10 @@ const Hero = () => {
     setShinePos({ x: 50, y: 50 });
   }, []);
 
+  const baseRotate = "rotateZ(-12deg)";
   const cardTransform = flipped
-    ? `rotateY(${180 + tilt.x}deg) rotateX(${tilt.y}deg)`
-    : `rotateY(${tilt.x}deg) rotateX(${tilt.y}deg)`;
+    ? `${baseRotate} rotateY(${180 + tilt.x}deg) rotateX(${tilt.y}deg)`
+    : `${baseRotate} rotateY(${tilt.x}deg) rotateX(${tilt.y}deg)`;
 
   return (
     <section className="bg-background py-16 md:py-24 px-4 md:px-10">
@@ -162,6 +163,10 @@ const Hero = () => {
               </div>
             </div>
           </div>
+          {/* Hint */}
+          <p className="mt-6 text-center text-xs text-muted-foreground animate-pulse flex items-center justify-center gap-1.5">
+            <span>👆</span> Clique no cartão para virar
+          </p>
         </motion.div>
       </div>
     </section>
