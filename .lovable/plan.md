@@ -1,47 +1,20 @@
 
 
-## Plan: Replace Products section with Inter-style card carousel
+## Problem
 
-The current `Products` section shows a grid of 5 cards. The user wants to replace it with a tabbed carousel matching the Inter website screenshots: tabs at the top (Gold, Platinum, Prime, Win), a card image on the left, and card details (name, "Sem anulidade" badge, Inter Loop info, benefits, requirements) on the right.
+The 3D card stack on the right side shows overlapping transparent cards because the `perspective` + `rotateY` + partial opacity approach renders prev/next cards visibly on top of each other. The cards and info text are also too small.
 
-### Approach
+## Plan
 
-Instead of using the provided `FeatureCarousel` component (which has a very different design with a vertical pill list + image cards), I will adapt its auto-play/tab-switching logic but build a custom layout that matches the Inter reference screenshots exactly.
+**File: `src/components/CardCarousel.tsx`**
 
-**The `@hugeicons` dependency will NOT be used** -- the provided carousel component's design doesn't match the reference. I'll use lucide-react icons instead and build a layout faithful to the screenshots.
+1. **Remove the 3D stack approach** — Instead of showing prev/next cards with `rotateY` and `opacity: 0.5`, use `AnimatePresence` with `mode="wait"` to show only the active card at a time, with a smooth slide/fade transition.
 
-### Data Structure
+2. **Increase card size** — Change from `w-[300px] h-[185px]` to `w-[360px] h-[220px]` for a larger, more prominent card visual.
 
-Four card tiers, each with:
-- Tab label, card name, card gradient/color, Inter Loop points ratio
-- Benefits list (milhas, dolares, cashback, descontos, salas VIP, investimentos)
-- Requirements ("Como ter o seu cartao")
+3. **Increase info text size** — Change card name from `text-sm` to `text-lg font-bold`, loop info stays prominent, description from `text-xs` to `text-sm`, and increase `max-w` from 260px to 340px.
 
-### File Changes
+4. **Increase container size** — Change the right-side container from `w-[320px] h-[350px]` to a flex layout that fits the larger card + info naturally, removing the fixed perspective wrapper.
 
-**1. New file: `src/components/CardCarousel.tsx`**
-
-- State: `activeTab` (Gold | Platinum | Prime | Win)
-- Top: horizontal tab bar with orange border on active tab
-- Content area (rounded white card with shadow): two-column grid
-  - Left: CSS credit card visual matching each tier's color (orange for Gold, gray for Platinum, black for Prime, dark navy for Win) with Inter logo, chip, and Mastercard circles -- animated entrance on tab change
-  - Right: card name + "Sem anulidade" green badge, Inter Loop yellow banner, benefits grid (2 columns, 6 items with lucide icons), requirements section with green checkmarks
-- Auto-play every 4s, pause on hover
-- Animate content transitions with framer-motion `AnimatePresence`
-
-**2. Edit: `src/components/Products.tsx`**
-
-- Keep the heading ("Escolha o cartao ideal para voce" / "Opcoes para todos os perfis...")
-- Replace the card grid (lines 32-63) with `<CardCarousel />`
-
-**3. Dependencies**: No new npm packages needed (already has framer-motion and lucide-react).
-
-### Card tier data
-
-| Tab | Color | Loop | Requirements |
-|-----|-------|------|-------------|
-| Gold | Orange gradient | R$ 10,00 | Abrir conta gratuita, 18+ com CPF |
-| Platinum | Silver/gray | R$ 5,00 | Salario R$ 6 mil via portabilidade, ou R$ 5.000 em 4 faturas |
-| Prime | Black | R$ 2,50 | Plano anual Duo Gourmet, ou R$ 7.000 em 4 faturas |
-| Win | Dark navy | R$ 2,00 | Investimentos a partir de R$ 1 milhao |
+5. **Keep everything else intact** — Left pill list, auto-play, pause-on-hover, spring animations all stay the same.
 
