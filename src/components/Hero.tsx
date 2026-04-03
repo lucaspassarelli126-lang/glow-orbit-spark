@@ -3,8 +3,8 @@ import { Shield, Users } from "lucide-react";
 
 const Hero = () => {
   return (
-    <section className="bg-background py-16 lg:py-24 px-4 lg:px-10">
-      <div className="mx-auto grid max-w-[1400px] grid-cols-1 items-center gap-10 lg:grid-cols-2 lg:gap-20">
+    <section className="bg-background py-16 md:py-24 px-4 md:px-10">
+      <div className="mx-auto grid max-w-[1400px] grid-cols-1 items-start gap-10 md:grid-cols-2 md:gap-12 lg:gap-20">
         {/* Left Column */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
