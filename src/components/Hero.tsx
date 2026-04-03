@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { Shield, Users } from "lucide-react";
-import { useState, useRef, useCallback } from "react";
+import { useState, useRef, useCallback, useEffect } from "react";
 
 const Hero = () => {
   const [flipped, setFlipped] = useState(false);
@@ -26,6 +26,15 @@ const Hero = () => {
   const handleMouseLeave = useCallback(() => {
     setTilt({ x: 0, y: 0 });
     setShinePos({ x: 50, y: 50 });
+  }, []);
+
+  // Initial "peek" animation on mount
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setTilt({ x: 25, y: 0 });
+      setTimeout(() => setTilt({ x: 0, y: 0 }), 800);
+    }, 1000);
+    return () => clearTimeout(timer);
   }, []);
 
   const baseRotate = "rotateZ(-12deg)";
@@ -126,6 +135,12 @@ const Hero = () => {
                   pointerEvents: "none",
                 }}
               />
+              {/* Hint icon */}
+              {!hasClicked && (
+                <span className="absolute top-2.5 right-3 text-white/70 text-lg pointer-events-none animate-hint-move">
+                  ↺
+                </span>
+              )}
               {/* Logo */}
               <span className="absolute top-5 left-5 text-white text-[26px] font-bold">inter</span>
               {/* Chip */}
