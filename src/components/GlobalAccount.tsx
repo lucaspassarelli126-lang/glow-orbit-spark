@@ -6,11 +6,11 @@ const GlobalAccount = () => {
   const [ref, inView] = useInView({ triggerOnce: true, threshold: 0.2 });
 
   return (
-    <section ref={ref} className="py-20 px-6 bg-background overflow-hidden">
-      <div className="max-w-6xl mx-auto flex flex-col lg:flex-row items-center gap-12">
+    <section ref={ref} className="pt-20 pb-0 px-6 bg-background relative">
+      <div className="max-w-6xl mx-auto flex flex-col lg:flex-row items-center lg:items-end gap-12">
         {/* Left column */}
         <motion.div
-          className="flex-1 text-center lg:text-left"
+          className="flex-1 text-center lg:text-left pb-20"
           initial={{ opacity: 0, x: -40 }}
           animate={inView ? { opacity: 1, x: 0 } : {}}
           transition={{ duration: 0.7, ease: "easeOut" }}
@@ -48,17 +48,15 @@ const GlobalAccount = () => {
 
         {/* Right column */}
         <motion.div
-          className="flex-1 flex justify-center mt-10 lg:mt-0"
+          className="flex-1 flex justify-center lg:justify-end mt-10 lg:mt-0 self-end"
           initial={{ opacity: 0, x: 40 }}
           animate={inView ? { opacity: 1, x: 0 } : {}}
           transition={{ duration: 0.7, ease: "easeOut", delay: 0.2 }}
         >
-          <motion.img
+          <img
             src={globalAccountImg}
             alt="C6 Conta Global Dólar e Euro"
-            className="w-[340px] md:w-[420px] lg:w-[500px] max-w-full h-auto drop-shadow-2xl"
-            animate={{ y: [0, -10, 0] }}
-            transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+            className="w-[340px] md:w-[420px] lg:w-[500px] max-w-full h-auto drop-shadow-2xl relative -bottom-2 md:-bottom-4"
           />
         </motion.div>
       </div>
