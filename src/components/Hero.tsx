@@ -4,6 +4,7 @@ import { useState, useRef, useCallback } from "react";
 
 const Hero = () => {
   const [flipped, setFlipped] = useState(false);
+  const [hasClicked, setHasClicked] = useState(false);
   const cardRef = useRef<HTMLDivElement>(null);
   const [tilt, setTilt] = useState({ x: 0, y: 0 });
   const [shinePos, setShinePos] = useState({ x: 50, y: 50 });
@@ -99,7 +100,7 @@ const Hero = () => {
         >
           <div
             className="w-[340px] h-[210px] cursor-pointer"
-            onClick={() => setFlipped((f) => !f)}
+            onClick={() => { setFlipped((f) => !f); setHasClicked(true); }}
             style={{
               transformStyle: "preserve-3d",
               transition: "transform 0.8s",
@@ -164,9 +165,11 @@ const Hero = () => {
             </div>
           </div>
           {/* Hint */}
-          <p className="mt-6 text-center text-xs text-muted-foreground animate-pulse flex items-center justify-center gap-1.5">
-            <span>👆</span> Clique no cartão para virar
-          </p>
+          {!hasClicked && (
+            <p className="mt-6 text-center text-xs text-muted-foreground animate-pulse">
+              Clique no cartão para virar
+            </p>
+          )}
         </motion.div>
       </div>
     </section>
