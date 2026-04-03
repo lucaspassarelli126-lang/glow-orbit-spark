@@ -6,7 +6,7 @@ const GlobalAccount = () => {
   const [ref, inView] = useInView({ triggerOnce: true, threshold: 0.2 });
 
   return (
-    <section ref={ref} className="pt-20 pb-0 px-6 bg-background relative">
+    <section ref={ref} className="pt-20 pb-0 px-6 bg-background relative overflow-hidden">
       <div className="max-w-6xl mx-auto flex flex-col lg:flex-row items-center lg:items-end gap-12">
         {/* Left column */}
         <motion.div
