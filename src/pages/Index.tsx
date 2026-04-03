@@ -7,9 +7,11 @@ import GlobalAccount from "@/components/GlobalAccount";
 import AppFeatures from "@/components/AppFeatures";
 import FeaturesGrid from "@/components/FeaturesGrid";
 import Footer from "@/components/Footer";
+import { DottedSurface } from "@/components/ui/dotted-surface";
 
 const Index = () => (
-  <div className="min-h-screen">
+  <div className="min-h-screen relative">
+    <DottedSurface className="size-full" />
     <Navbar />
     <Hero />
     <Products />
