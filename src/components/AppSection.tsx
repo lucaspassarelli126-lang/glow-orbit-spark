@@ -1,3 +1,4 @@
+import { useRef, useCallback } from "react";
 import { motion } from "framer-motion";
 import { useInView } from "react-intersection-observer";
 import { Smartphone, CreditCard, PiggyBank, Zap } from "lucide-react";
@@ -9,44 +10,92 @@ const features = [
   { icon: Zap, title: "Pix Instantâneo", desc: "Transferências em segundos, 24/7." },
 ];
 
-const WavySvg = () => (
-  <svg
-    viewBox="0 0 400 300"
-    xmlns="http://www.w3.org/2000/svg"
-    className="absolute -top-16 -left-24 w-[480px] h-[300px] -z-10 opacity-80 animate-wavy"
-  >
-    <path d="M0,100 Q100,80 200,100 T400,100" stroke="hsl(var(--primary))" strokeWidth="2" fill="none" />
-    <path d="M0,150 Q100,130 200,150 T400,150" stroke="hsl(var(--primary))" strokeWidth="2" fill="none" />
-    <path d="M0,200 Q100,180 200,200 T400,200" stroke="hsl(var(--primary))" strokeWidth="2" fill="none" />
-    <path d="M0,250 Q100,230 200,250 T400,250" stroke="hsl(var(--primary))" strokeWidth="2" fill="none" />
-  </svg>
-);
-
 const AppSection = () => {
   const { ref, inView } = useInView({ threshold: 0.2, triggerOnce: true });
+  const glareRef = useRef<HTMLDivElement>(null);
+  const cardRef = useRef<HTMLDivElement>(null);
+
+  const handleMouseMove = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
+    if (!glareRef.current || !cardRef.current) return;
+    const rect = cardRef.current.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    glareRef.current.style.left = `${x - rect.width}px`;
+    glareRef.current.style.top = `${y - rect.height}px`;
+  }, []);
 
   return (
     <section className="bg-background py-16 lg:py-20 px-4 lg:px-10">
       <div className="mx-auto grid max-w-[1400px] grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-20 items-center" ref={ref}>
-        {/* Smartphone */}
+        {/* Phone + Card composition */}
         <motion.div
           initial={{ opacity: 0, x: -40 }}
           animate={inView ? { opacity: 1, x: 0 } : {}}
           transition={{ duration: 0.8 }}
           className="relative flex justify-center"
+          style={{ perspective: "1600px", height: "480px" }}
         >
-          <WavySvg />
+          {/* Blurred background shape */}
           <div
-            className="w-[260px] h-[520px] lg:w-[280px] lg:h-[560px] bg-foreground rounded-5xl border-[8px] border-foreground/80 relative"
-            style={{ transform: "perspective(1000px) rotateY(15deg) rotateX(5deg)", boxShadow: "0 20px 60px rgba(0,0,0,0.3)" }}
+            className="absolute w-full h-full rounded-[100px] opacity-0 animate-fade-in-bg"
+            style={{
+              background: "linear-gradient(135deg, #7a3b0c, #3a1a05)",
+              filter: "blur(20px)",
+              transform: "scale(1.1) rotate(-6deg)",
+            }}
+          />
+
+          {/* Phone */}
+          <div
+            className="absolute w-[240px] h-[480px] left-1/2 -ml-[200px] top-[-20px] rounded-[40px] opacity-0 animate-rise-phone"
+            style={{
+              background: "linear-gradient(145deg, #111, #000)",
+              boxShadow: "0 40px 80px rgba(0,0,0,0.4), inset 0 0 10px rgba(255,255,255,0.08)",
+            }}
           >
-            <div className="absolute top-6 left-[2px] right-[2px] bottom-[26px] bg-muted rounded-[32px] flex items-center justify-center">
-              <div className="text-center px-4">
-                <div className="w-12 h-12 rounded-full bg-primary mx-auto mb-3 flex items-center justify-center">
-                  <span className="text-primary-foreground font-bold text-lg">a</span>
-                </div>
-                <p className="text-xs text-gray-text">App Ainter</p>
-              </div>
+            <div className="absolute inset-[10px] rounded-[30px] bg-gradient-to-b from-white to-muted p-5">
+              <p className="text-foreground font-semibold text-sm mb-1">Cartões</p>
+              <p className="text-foreground text-xl font-bold">R$ 50,00</p>
+            </div>
+          </div>
+
+          {/* Floating Card */}
+          <div
+            ref={cardRef}
+            onMouseMove={handleMouseMove}
+            className="absolute w-[300px] h-[180px] top-[170px] left-1/2 ml-[-60px] rounded-[20px] opacity-0 animate-rise-card overflow-hidden"
+            style={{
+              background: "linear-gradient(135deg, hsl(var(--orange-primary)), #ff3d00)",
+              boxShadow: "0 30px 60px rgba(0,0,0,0.35), inset 0 0 30px rgba(255,255,255,0.2)",
+              transformStyle: "preserve-3d",
+            }}
+          >
+            {/* Glare */}
+            <div
+              ref={glareRef}
+              className="absolute pointer-events-none"
+              style={{
+                width: "200%",
+                height: "200%",
+                background: "radial-gradient(circle, rgba(255,255,255,0.35), transparent 60%)",
+                top: "-50%",
+                left: "-50%",
+                transition: "all 0.1s",
+              }}
+            />
+            {/* Logo */}
+            <span className="absolute top-5 right-5 text-primary-foreground font-semibold text-[22px]">
+              ainter
+            </span>
+            {/* Chip */}
+            <div
+              className="absolute top-[70px] left-[25px] w-[50px] h-[35px] rounded-lg"
+              style={{ background: "linear-gradient(145deg, #ddd, #999)" }}
+            />
+            {/* Mastercard circles */}
+            <div className="absolute bottom-4 right-5 flex">
+              <div className="w-10 h-10 rounded-full bg-[#eb001b] -mr-3" />
+              <div className="w-10 h-10 rounded-full bg-[#f79e1b]" />
             </div>
           </div>
         </motion.div>
@@ -62,7 +111,7 @@ const AppSection = () => {
             <br />
             <span className="text-primary">Onde estiver.</span>
           </h2>
-          <p className="text-base text-gray-text leading-relaxed mb-10">
+          <p className="text-base text-muted-foreground leading-relaxed mb-10">
             Tenha controle total das suas finanças com um app intuitivo e repleto de funcionalidades.
           </p>
 
@@ -72,7 +121,7 @@ const AppSection = () => {
                 <f.icon size={24} className="text-primary flex-shrink-0 mt-0.5" />
                 <div>
                   <p className="text-sm font-semibold text-foreground mb-1">{f.title}</p>
-                  <p className="text-xs text-gray-text leading-snug">{f.desc}</p>
+                  <p className="text-xs text-muted-foreground leading-snug">{f.desc}</p>
                 </div>
               </div>
             ))}
