@@ -13,12 +13,10 @@ const Index = () => (
   <div className="min-h-screen relative bg-black overflow-x-hidden">
     <div className="fixed inset-0 z-0 pointer-events-none">
       <MeshGradient
-        className="w-full h-full opacity-60"
-        colors={["#000000", "#111111", "#222222", "#3a3a3a"]}
-        speed={0.3}
+        className="w-full h-full"
+        colors={["#000000", "#1a1a1a", "#333333", "#ffffff"]}
+        speed={0.5}
       />
-      {/* Overlay escuro para garantir leitura das fontes em qualquer situação */}
-      <div className="absolute inset-0 bg-black/50" />
     </div>
     <div className="relative z-10">
       <Navbar />
