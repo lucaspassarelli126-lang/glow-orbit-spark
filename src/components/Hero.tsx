@@ -28,6 +28,15 @@ const Hero = () => {
     setShinePos({ x: 50, y: 50 });
   }, []);
 
+  // Initial "peek" animation on mount
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setTilt({ x: 25, y: 0 });
+      setTimeout(() => setTilt({ x: 0, y: 0 }), 800);
+    }, 1000);
+    return () => clearTimeout(timer);
+  }, []);
+
   const baseRotate = "rotateZ(-12deg)";
   const cardTransform = flipped
     ? `${baseRotate} rotateY(${180 + tilt.x}deg) rotateX(${tilt.y}deg)`
