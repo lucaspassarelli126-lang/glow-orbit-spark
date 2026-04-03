@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { useInView } from "react-intersection-observer";
-import globalAccountImg from "@/assets/global-account.png";
+import globalAccountImg from "@/assets/c6-global-account.png";
 
 const GlobalAccount = () => {
   const [ref, inView] = useInView({ triggerOnce: true, threshold: 0.2 });
@@ -15,26 +15,26 @@ const GlobalAccount = () => {
           animate={inView ? { opacity: 1, x: 0 } : {}}
           transition={{ duration: 0.7, ease: "easeOut" }}
         >
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-foreground leading-tight mb-6">
-            Conta internacional com{" "}
-            <span className="text-primary">cartão físico e virtual</span>
+          <h2 className="text-3xl md:text-4xl lg:text-5xl font-extrabold text-foreground leading-tight mb-6 mt-10 lg:mt-0">
+            C6 Conta Global com{" "}
+            <span className="text-primary">Dólar e Euro</span>
           </h2>
           <ul className="space-y-4 text-muted-foreground text-base md:text-lg mb-8">
             <li className="flex items-start gap-3 justify-center lg:justify-start">
               <span className="text-primary font-bold text-xl">•</span>
-              <span>Sem IOF nas transações internacionais</span>
+              <span>Dólar e euro com spread a partir de 0,75%</span>
             </li>
             <li className="flex items-start gap-3 justify-center lg:justify-start">
               <span className="text-primary font-bold text-xl">•</span>
-              <span>Câmbio com dólar comercial</span>
+              <span>Câmbio 24h no mesmo app da sua conta no Brasil</span>
             </li>
             <li className="flex items-start gap-3 justify-center lg:justify-start">
               <span className="text-primary font-bold text-xl">•</span>
-              <span>Cashback em compras internacionais</span>
+              <span>Cartão de débito internacional exclusivo</span>
             </li>
             <li className="flex items-start gap-3 justify-center lg:justify-start">
               <span className="text-primary font-bold text-xl">•</span>
-              <span>Aceito em mais de 200 países</span>
+              <span>Saques em caixas eletrônicos pelo mundo todo</span>
             </li>
           </ul>
           <motion.button
@@ -42,20 +42,20 @@ const GlobalAccount = () => {
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
           >
-            Abrir conta global
+            Abrir C6 Conta Global
           </motion.button>
         </motion.div>
 
         {/* Right column */}
         <motion.div
-          className="flex-1 flex justify-center"
+          className="flex-1 flex justify-center mt-10 lg:mt-0"
           initial={{ opacity: 0, x: 40 }}
           animate={inView ? { opacity: 1, x: 0 } : {}}
           transition={{ duration: 0.7, ease: "easeOut", delay: 0.2 }}
         >
           <motion.img
             src={globalAccountImg}
-            alt="Conta Global Inter com cartão físico e virtual"
+            alt="C6 Conta Global Dólar e Euro"
             className="w-[340px] md:w-[420px] lg:w-[500px] max-w-full h-auto drop-shadow-2xl"
             animate={{ y: [0, -10, 0] }}
             transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
