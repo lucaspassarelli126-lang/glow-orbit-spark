@@ -62,17 +62,16 @@ const Hero = () => {
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.8, delay: 0.3 }}
           className="flex items-center justify-center relative"
+          style={{ perspective: "1000px" }}
         >
           <div
-            className="relative w-[320px] h-[200px] sm:w-[400px] sm:h-[250px] lg:w-[480px] lg:h-[300px] rounded-2xl"
+            className="animate-rotate-card relative w-[320px] h-[200px] sm:w-[400px] sm:h-[250px] lg:w-[480px] lg:h-[300px] rounded-2xl"
             style={{
-              background: "linear-gradient(145deg, #b0b0b0 0%, #808080 40%, #a0a0a0 70%, #909090 100%)",
-              transform: "rotate(-12deg)",
               boxShadow: "0 30px 80px rgba(0, 0, 0, 0.25), 0 10px 30px rgba(0, 0, 0, 0.15)",
             }}
           >
             {/* Card content */}
-            <div className="absolute inset-0 flex flex-col justify-between p-6 lg:p-8 text-white">
+            <div className="absolute inset-0 flex flex-col justify-between p-6 lg:p-8 text-white" style={{ backfaceVisibility: "hidden" }}>
               <div className="flex justify-between items-start">
                 <span className="text-xl lg:text-2xl font-bold tracking-wide opacity-90">ainter</span>
                 <div className="flex items-center gap-1">
