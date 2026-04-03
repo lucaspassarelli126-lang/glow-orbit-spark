@@ -47,10 +47,6 @@ const TIERS = [
 const AUTO_PLAY_INTERVAL = 3500;
 const ITEM_HEIGHT = 65;
 
-const wrap = (min: number, max: number, v: number) => {
-  const rangeSize = max - min;
-  return ((((v - min) % rangeSize) + rangeSize) % rangeSize) + min;
-};
 
 const CardCarousel = () => {
   const [step, setStep] = useState(0);
