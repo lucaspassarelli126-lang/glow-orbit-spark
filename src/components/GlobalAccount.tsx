@@ -48,16 +48,24 @@ const GlobalAccount = () => {
 
         {/* Right column */}
         <motion.div
-          className="flex-1 flex justify-center lg:justify-end mt-10 lg:mt-0 self-end"
+          className="flex-1 flex justify-center lg:justify-end lg:mt-0 self-end w-full"
           initial={{ opacity: 0, x: 40 }}
           animate={inView ? { opacity: 1, x: 0 } : {}}
           transition={{ duration: 0.7, ease: "easeOut", delay: 0.2 }}
         >
-          <img
-            src={globalAccountImg}
-            alt="C6 Conta Global Dólar e Euro"
-            className="w-[340px] md:w-[420px] lg:w-[500px] max-w-full h-auto drop-shadow-2xl relative -bottom-2 md:-bottom-4"
-          />
+          {/* Container restrito para esconder o texto nativo da imagem através de clip-path */}
+          <div className="w-[340px] md:w-[420px] lg:w-[480px] max-w-full drop-shadow-2xl relative">
+            <img
+              src={globalAccountImg}
+              alt="C6 Conta Global Dólar e Euro"
+              className="w-full h-auto relative -bottom-2 md:-bottom-4"
+              style={{
+                /* Corta os ~40% do topo da imagem (onde está o texto) e puxa o celular pra cima */
+                clipPath: "inset(38% 0 0 0)",
+                marginTop: "-38%"
+              }}
+            />
+          </div>
         </motion.div>
       </div>
     </section>
