@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import { Shield, Users } from "lucide-react";
+import cardInter from "@/assets/card-inter.png";
 
 const Hero = () => {
   return (
