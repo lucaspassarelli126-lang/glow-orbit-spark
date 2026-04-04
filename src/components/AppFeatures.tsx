@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import { useInView } from "react-intersection-observer";
 import { useState } from "react";
-import phoneCardsImg from "@/assets/phone-cards.png";
+import c6BlackCardPremium from "@/assets/c6-black-card-premium.png";
 
 const AppFeatures = () => {
   const { ref, inView } = useInView({ threshold: 0.2, triggerOnce: true });
@@ -18,9 +18,9 @@ const AppFeatures = () => {
           className="flex justify-center"
         >
           <img
-            src={phoneCardsImg}
-            alt="App Inter com cartões"
-            className="w-[320px] lg:w-[420px] max-w-full h-auto drop-shadow-2xl"
+            src={c6BlackCardPremium}
+            alt="Cartão C6 Black Premium"
+            className="w-[320px] lg:w-[420px] max-w-full h-auto drop-shadow-2xl [mask-image:radial-gradient(circle,black_70%,transparent_100%)] mix-blend-screen"
           />
         </motion.div>
 
