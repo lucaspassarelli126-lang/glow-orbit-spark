@@ -1,21 +1,28 @@
 
 
-## Plan: Create "Conta Internacional" Section
+## Plan: Fix card image right edge with smooth gradient fade
 
-The uploaded image shows an Inter Global Account promotional visual — a phone with the Inter app showing US dollar balance, alongside an orange debit card with "GLOBAL ACCOUNT" branding. Text reads "Conta internacional com cartão físico e virtual" and "sem IOF nas transações."
+The dark line on the right edge is caused by the image's hard crop. Instead of editing the image file, we apply a CSS mask that fades the right edge to transparent, blending seamlessly with the background.
 
 ### Changes
 
-**1. Copy image asset**
-- Copy `user-uploads://image-Photoroom_1.png` to `src/assets/global-account.png`
+**File: `src/components/Hero.tsx`** (line 72-76)
 
-**2. New file: `src/components/GlobalAccount.tsx`**
-- Light/white background section with two-column layout
-- **Left column**: Heading "Conta internacional com cartão físico e virtual" in large bold text (orange accent on key words), subtext about Global Account features (sem IOF, dólar comercial, cashback internacional), and a CTA button "Abrir conta global"
-- **Right column**: The uploaded image with a subtle float animation and drop shadow
-- Framer Motion entrance animations with `useInView`
-- Responsive: stacks vertically on mobile
+Add a CSS `mask-image` gradient to the `<img>` tag that fades to transparent on the right edge (and slightly on the bottom), eliminating the visible cut line:
 
-**3. Edit `src/pages/Index.tsx`**
-- Import `GlobalAccount` and place it between `DarkSection` and `AppFeatures`
+```tsx
+<img
+  src={c6CardAngled}
+  alt="Cartão C6 Bank no Bloco"
+  className="relative z-10 w-full h-auto object-cover object-right-bottom transform translate-x-[5%] translate-y-[5%]"
+  style={{
+    maskImage: "linear-gradient(to right, black 70%, transparent 100%), linear-gradient(to bottom, black 70%, transparent 100%)",
+    maskComposite: "intersect",
+    WebkitMaskImage: "linear-gradient(to right, black 70%, transparent 100%), linear-gradient(to bottom, black 70%, transparent 100%)",
+    WebkitMaskComposite: "destination-in",
+  }}
+/>
+```
+
+This creates a smooth feather on the right and bottom edges — no image editing needed, fully CSS-based, and the card blends continuously into the dark background.
 

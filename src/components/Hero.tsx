@@ -73,6 +73,12 @@ const Hero = () => {
           src={c6CardAngled}
           alt="Cartão C6 Bank no Bloco"
           className="relative z-10 w-full h-auto object-cover object-right-bottom transform translate-x-[5%] translate-y-[5%]"
+          style={{
+            maskImage: "linear-gradient(to right, black 70%, transparent 100%), linear-gradient(to bottom, black 70%, transparent 100%)",
+            maskComposite: "intersect",
+            WebkitMaskImage: "linear-gradient(to right, black 70%, transparent 100%), linear-gradient(to bottom, black 70%, transparent 100%)",
+            WebkitMaskComposite: "destination-in",
+          }}
         />
       </motion.div>
     </section>
