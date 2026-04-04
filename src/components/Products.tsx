@@ -6,7 +6,7 @@ const Products = () => {
   const { ref, inView } = useInView({ threshold: 0.2, triggerOnce: true });
 
   return (
-    <section id="produtos" className="bg-muted py-16 lg:py-20 px-4 lg:px-10">
+    <section id="produtos" className="bg-background py-16 lg:py-20 px-4 lg:px-10">
       <div className="mx-auto max-w-[1400px]" ref={ref}>
         <motion.div
           initial={{ opacity: 0, y: 30 }}

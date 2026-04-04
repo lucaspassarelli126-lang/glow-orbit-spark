@@ -151,7 +151,21 @@ const CardCarousel = () => {
         </div>
 
         {/* RIGHT — Active card */}
-        <div className="flex-1 relative flex items-center justify-center bg-muted rounded-2xl lg:rounded-l-none overflow-hidden min-h-[420px]">
+        <div className="flex-1 relative flex items-center justify-center rounded-2xl lg:rounded-l-none overflow-hidden min-h-[420px] bg-black/50">
+
+          {/* Hidden SVG filter for removing dark card backgrounds */}
+          <svg width="0" height="0" className="absolute">
+            <defs>
+              <filter id="card-bg-remove" colorInterpolationFilters="sRGB">
+                <feColorMatrix type="luminanceToAlpha" result="luma" />
+                <feComponentTransfer in="luma" result="mask">
+                  <feFuncA type="linear" slope="4" intercept="-0.3" />
+                </feComponentTransfer>
+                <feComposite in="SourceGraphic" in2="mask" operator="in" />
+              </filter>
+            </defs>
+          </svg>
+
           <AnimatePresence mode="wait">
             <motion.div
               key={TIERS[currentIndex].id}
@@ -161,18 +175,22 @@ const CardCarousel = () => {
               exit={{ opacity: 0, x: -40 }}
               transition={{ duration: 0.4, ease: "easeInOut" }}
             >
-              {/* Card visual — Enhanced with realistic Image */}
-              <div
-                className="w-[360px] h-[220px] rounded-2xl flex items-center justify-center relative overflow-hidden transition-all duration-500 hover:scale-105 active:scale-95"
+              {/* Card visual — SVG filter removes black background pixels */}
+              <div 
+                className="flex items-center justify-center transition-all duration-500 hover:scale-105 active:scale-95"
+                style={{ width: "480px", height: "300px", maxWidth: "100%" }}
               >
                 <img
                    src={TIERS[currentIndex].image}
                    alt={TIERS[currentIndex].name}
-                   className="w-full h-full object-contain [mask-image:radial-gradient(circle,black_85%,transparent_100%)] mix-blend-lighten drop-shadow-[0_10px_30px_rgba(0,0,0,0.5)]"
+                   style={{ 
+                     width: "100%",
+                     height: "100%",
+                     objectFit: "contain",
+                     objectPosition: "center center",
+                     filter: "url(#card-bg-remove)"
+                   }}
                 />
-                
-                {/* Subtle sheen overlay */}
-                <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/5 to-white/10 pointer-events-none opacity-50" />
               </div>
 
               {/* Info below card */}
