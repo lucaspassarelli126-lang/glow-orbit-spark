@@ -2,7 +2,7 @@ import { useRef, useState, useCallback } from "react";
 import { motion } from "framer-motion";
 import { useInView } from "react-intersection-observer";
 import { Smartphone, CreditCard, PiggyBank, Zap } from "lucide-react";
-import c6AppScreens from "@/assets/c6-app-screens.png";
+import c6BlackCardPremium from "@/assets/c6-black-card-premium.png";
 
 const features = [
   { icon: Smartphone, title: "100% Digital", desc: "Abra sua conta pelo app em minutos." },
@@ -31,9 +31,9 @@ const AppSection = () => {
         >
           {/* Ajuste "blending" e de posicionamento se a imagem precisar de adaptação */}
           <img 
-            src={c6AppScreens} 
-            alt="Aplicativo C6 Bank" 
-            className="w-full max-w-[550px] object-contain drop-shadow-2xl" 
+            src={c6BlackCardPremium} 
+            alt="Cartão C6 Black Premium" 
+            className="w-full max-w-[550px] object-contain drop-shadow-2xl hover:scale-105 transition-transform duration-500" 
           />
         </motion.div>
 
