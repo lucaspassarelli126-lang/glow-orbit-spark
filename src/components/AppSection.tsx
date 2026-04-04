@@ -33,7 +33,7 @@ const AppSection = () => {
           <img 
             src={c6BlackCardPremium} 
             alt="Cartão C6 Black Premium" 
-            className="w-full max-w-[550px] object-contain drop-shadow-2xl hover:scale-105 transition-transform duration-500" 
+            className="w-full max-w-[550px] object-contain drop-shadow-2xl hover:scale-105 transition-transform duration-500 [mask-image:radial-gradient(circle,black_70%,transparent_100%)] mix-blend-screen" 
           />
         </motion.div>
 
