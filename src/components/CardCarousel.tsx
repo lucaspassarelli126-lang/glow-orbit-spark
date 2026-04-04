@@ -3,12 +3,18 @@ import { motion, AnimatePresence } from "framer-motion";
 import { CreditCard, Briefcase, Diamond, Award, Crown, Star } from "lucide-react";
 import { cn } from "@/lib/utils";
 
+import c6CardStandard from "@/assets/c6-card-standard.png";
+import c6CardBusiness from "@/assets/c6-card-business.png";
+import c6CardGraphene from "@/assets/c6-card-graphene.png";
+import c6CardCarbon from "@/assets/c6-card-carbon.png";
+import c6CardBlack from "@/assets/c6-black-card-premium.png";
+
 const TIERS = [
   {
     id: "c6",
     label: "C6",
     icon: CreditCard,
-    gradient: "linear-gradient(135deg, #F04770 0%, #F68B30 100%)",
+    image: c6CardStandard,
     description: "Pontos que não expiram e anuidade zero.",
     name: "C6",
   },
@@ -16,7 +22,7 @@ const TIERS = [
     id: "c6-business",
     label: "C6 Business",
     icon: Briefcase,
-    gradient: "linear-gradient(135deg, #E2E2E2 0%, #CFCFCF 100%)",
+    image: c6CardBusiness,
     description: "Cartão sem anuidade para simplificar a gestão do seu negócio.",
     name: "C6 Business",
     textColor: "#555",
@@ -25,7 +31,7 @@ const TIERS = [
     id: "c6-graphene",
     label: "C6 Graphene",
     icon: Diamond,
-    gradient: "linear-gradient(135deg, #6b6b6b 0%, #3d3d3d 100%)",
+    image: c6CardGraphene,
     description: "4,5 pontos/US$ 1 no crédito. Salas VIP ilimitadas no mundo todo. Exclusivo para quem investe a partir de R$ 5 milhões.",
     name: "C6 Graphene",
     textColor: "#1a1a1a",
@@ -34,8 +40,7 @@ const TIERS = [
     id: "c6-carbon",
     label: "C6 Carbon",
     icon: Award,
-    // Estilo que simula a textura em malha do Carbon, via background duplo:
-    gradient: "repeating-linear-gradient(45deg, #222 0%, #222 2%, #111 2%, #111 4%), linear-gradient(135deg, #1A1A1A 0%, #000000 100%)",
+    image: c6CardCarbon,
     description: "Até 3,5 pontos/US$ 1, salas VIP em aeroportos do mundo todo e muito mais.",
     name: "C6 Carbon",
     textColor: "#D1D5DB",
@@ -44,7 +49,7 @@ const TIERS = [
     id: "c6-black",
     label: "C6 Black",
     icon: Crown,
-    gradient: "linear-gradient(135deg, #111111 0%, #050505 100%)",
+    image: c6CardBlack,
     description: "Até 2,5 pontos/US$ 1, cashback de até 1,2% e mais.",
     name: "C6 Black",
     textColor: "#A3A3A3",
@@ -53,7 +58,7 @@ const TIERS = [
     id: "c6-platinum",
     label: "C6 Platinum",
     icon: Star,
-    gradient: "linear-gradient(135deg, #B5BDBB 0%, #87918E 100%)",
+    image: c6CardBusiness, // Fallback for Platinum using Business silver style
     description: "Pontos que não expiram, anuidade zero e todos os benefícios Mastercard Platinum.",
     name: "C6 Platinum",
     textColor: "#fff",
@@ -156,21 +161,18 @@ const CardCarousel = () => {
               exit={{ opacity: 0, x: -40 }}
               transition={{ duration: 0.4, ease: "easeInOut" }}
             >
-              {/* Card visual */}
+              {/* Card visual — Enhanced with realistic Image */}
               <div
-                className="w-[360px] h-[220px] rounded-2xl p-7 flex flex-col justify-between relative overflow-hidden shadow-2xl"
-                style={{ background: TIERS[currentIndex].gradient }}
+                className="w-[360px] h-[220px] rounded-2xl flex items-center justify-center relative overflow-hidden transition-all duration-500 hover:scale-105 active:scale-95"
               >
-                <div className="absolute inset-0 opacity-20 pointer-events-none" style={{ background: "radial-gradient(circle at 30% 20%, rgba(255,255,255,0.6) 0%, transparent 60%)" }} />
-                <div className="flex justify-end">
-                  <span className="text-3xl font-medium tracking-wide" style={{ color: TIERS[currentIndex].textColor || "#fff" }}>C6<span className="font-light">BANK</span></span>
-                </div>
-                <div className="w-12 h-9 rounded-md mt-6" style={{ background: "linear-gradient(135deg, #d1d1d1, #a1a1a1)", border: "1px solid rgba(0,0,0,0.1)" }} />
-                <div className="flex justify-start items-end gap-0 absolute bottom-7 left-7">
-                  {/* C6 Logo Style - Mastercard at bottom left */}
-                  <div className="w-9 h-9 rounded-full bg-[#EB001B] relative z-10" />
-                  <div className="w-9 h-9 rounded-full bg-[#F79E1B] opacity-85 -ml-3" />
-                </div>
+                <img
+                   src={TIERS[currentIndex].image}
+                   alt={TIERS[currentIndex].name}
+                   className="w-full h-full object-contain [mask-image:radial-gradient(circle,black_85%,transparent_100%)] mix-blend-lighten drop-shadow-[0_10px_30px_rgba(0,0,0,0.5)]"
+                />
+                
+                {/* Subtle sheen overlay */}
+                <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/5 to-white/10 pointer-events-none opacity-50" />
               </div>
 
               {/* Info below card */}
