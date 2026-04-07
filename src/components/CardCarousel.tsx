@@ -66,7 +66,7 @@ const TIERS = [
 ];
 
 const AUTO_PLAY_INTERVAL = 3500;
-const ITEM_HEIGHT = 65;
+const ITEM_HEIGHT = 73; // Increased to account for gap-2 (8px) + button height
 const wrap = (min: number, max: number, v: number) => {
   const rangeSize = max - min;
   return ((((v - min) % rangeSize) + rangeSize) % rangeSize) + min;
@@ -103,26 +103,29 @@ const CardCarousel = () => {
         {/* LEFT — Pill list */}
         <div className="relative flex-shrink-0 lg:w-[340px] bg-foreground rounded-2xl lg:rounded-r-none p-6 flex flex-col justify-center overflow-hidden">
           {/* Top fade */}
-          <div className="absolute top-0 left-0 right-0 h-16 bg-gradient-to-b from-foreground to-transparent z-10 pointer-events-none" />
+          <div className="absolute top-0 left-0 right-0 h-24 bg-gradient-to-b from-foreground to-transparent z-10 pointer-events-none" />
           {/* Bottom fade */}
-          <div className="absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t from-foreground to-transparent z-10 pointer-events-none" />
+          <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-foreground to-transparent z-10 pointer-events-none" />
 
           <motion.div
             className="flex flex-col gap-2 relative"
-            animate={{ y: -(currentIndex * ITEM_HEIGHT) + ITEM_HEIGHT }}
+            animate={{ y: -(currentIndex * ITEM_HEIGHT) + (ITEM_HEIGHT * 0.5) }}
             transition={{ type: "spring", stiffness: 200, damping: 30 }}
           >
             {TIERS.map((tier, index) => {
               const isActive = index === currentIndex;
               const distance = index - currentIndex;
-              const wrappedDistance = wrap(-(TIERS.length / 2), TIERS.length / 2, distance);
+              // Remove wrapping from opacity/scale logic to prevent "gaps" in the linear list
+              // only show items within a certain linear distance from center
+              const opacity = Math.abs(distance) > 2 ? 0 : 1 - (Math.abs(distance) * 0.35);
 
               return (
                 <motion.div
                   key={tier.id}
                   animate={{
-                    opacity: Math.abs(wrappedDistance) > 2 ? 0 : 1 - Math.abs(wrappedDistance) * 0.3,
-                    scale: isActive ? 1 : 0.95,
+                    opacity: opacity,
+                    scale: isActive ? 1 : 0.92,
+                    filter: isActive ? "blur(0px)" : `blur(${Math.abs(distance) * 1}px)`,
                   }}
                   transition={{ duration: 0.5 }}
                 >
